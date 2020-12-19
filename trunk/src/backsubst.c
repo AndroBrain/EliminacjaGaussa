@@ -6,7 +6,7 @@
  */
 int  backsubst(Matrix *x, Matrix *mat, Matrix *b) {
 	/**
-	 * Tutaj należy umieścić właściwą implemntację.
+	 * Tutaj należy umieścić właściwą implemntację. TEST DZIALANIA
 	 */
 
 	/* To ponizej jest przepisaniem b do x. Nalezy to poprawic! */
