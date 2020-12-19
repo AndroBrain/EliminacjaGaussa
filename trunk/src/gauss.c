@@ -15,6 +15,7 @@ int eliminate(Matrix *mat, Matrix *b){
 		}
 		for(int row = column+1; row < mat->r; row ++){
 			double ratio = mat->data[row][column]/mat->data[column][column];
+		 	b->data[row][0] = b->data[row][0] - ratio * b->data[column][0];
 			for(int columnEliminator = 0; columnEliminator < mat->c; columnEliminator++){
 				mat->data[row][columnEliminator] = mat->data[row][columnEliminator] - ratio * mat->data[column][columnEliminator];
 			}	
