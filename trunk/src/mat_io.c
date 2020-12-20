@@ -7,13 +7,15 @@
  * Zwraca == NULL - podczas wczytywania wystapil blad
  */
 Matrix * readFromFile(char * fname) {
-	int r,c;
+	int r = 0,c = 0;
 	int ir, ic;
 	FILE * fin =  fopen(fname,"r");
 	Matrix * mat = NULL;
 
 	if (fin != NULL) {
 		fscanf(fin,"%d %d",&r,&c);
+		if(r==0 || c==0)
+			fprintf(stderr,"Podano zly format!\n");
 		mat = createMatrix(r,c);
 		if (mat != NULL) {
 			for (ir = 0; ir < r; ir++) 

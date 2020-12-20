@@ -1,5 +1,6 @@
 #include "gauss.h"
-
+#include <stdlib.h>
+#include <string.h>
 /**
  * Zwraca 0 - elimnacja zakonczona sukcesem
  * Zwraca 1 - macierz osobliwa - dzielenie przez 0
@@ -9,8 +10,6 @@
  */
 
 int eliminate(Matrix *mat, Matrix *b){
-
-
 	if(mat->c != mat->r)
 		return 2;
 	if(mat->r != b->r)
@@ -19,7 +18,22 @@ int eliminate(Matrix *mat, Matrix *b){
 		return 4;
 
 	for(int column = 0; column < mat->c; column++){
-		if(mat->data[column][column]==0){
+		int max = column;
+		for(int i = column + 1; i < mat->r; i ++){
+			if(abs(mat->data[i][column]) > abs(mat->data[max][column]))
+				max = i;
+		}
+		double *temp;
+		temp = mat->data[column];
+		mat->data[column] = mat->data[max];
+		mat->data[max] = temp;
+
+		temp = b->data[column];
+
+		b->data[column] = b->data[max];
+		b->data[max] = temp;
+
+		if( mat->data[column][column]==0 ){
 			// Jest to macierz osobliwa !
 			return 1;
 		}

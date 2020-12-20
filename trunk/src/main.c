@@ -21,6 +21,10 @@ static int checkErrors(int errorCode){
 		fprintf(stderr,"Błąd! Macierz b to macierz rozwiązań i powinna mieć tylko 1 kolumnę.\n");
 		return 4;
 	}
+	if(errorCode == 5){
+		fprintf(stderr,"Błąd! 0 wystąpiło na diagonali przy podstawianiu wstecznym.\n");
+		return 5;
+	}
 	//Everything is alright
 	return 0;
 }
@@ -33,18 +37,27 @@ int main(int argc, char ** argv) {
 
 	if (A == NULL) return -1;
 	if (b == NULL) return -2;
+	printf("Macierz A:\n");
 	printToScreen(A);
+	printf("Macierz b:\n");
 	printToScreen(b);
 
 	errorCode = eliminate(A,b);
 	x = createMatrix(b->r, 1);
 	// Funkcja sprawdza błędy
 	if(checkErrors(errorCode) > 0){
+		freeMatrix(A);
+		freeMatrix(b);
 		return errorCode;
 	}
 	if (x != NULL) {
 		errorCode = backsubst(x,A,b);
-
+		if(checkErrors(errorCode) > 0){
+			freeMatrix(A);
+			freeMatrix(b);
+			return errorCode;
+		}
+		printf("Wyniki to:\n");
 		printToScreen(x);
 		freeMatrix(x);
 	} else {
