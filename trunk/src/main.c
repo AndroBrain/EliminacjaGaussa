@@ -4,9 +4,29 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+static int checkErrors(int errorCode){
+	if(errorCode == 1){
+		fprintf(stderr,"Błąd! Macierz nieosobliwa dzielenie przez 0.\n");
+		return 1;
+	}
+	if(errorCode == 2){
+		fprintf(stderr,"Błąd! Macierz A nie jest kwadratowa.\n");
+		return 2;
+	}
+	if(errorCode == 3){
+		fprintf(stderr,"Błąd! Ilość wierszy macierzy b nie zgadza się z ilością wierszy macierzy A.\n");
+		return 3;
+	}
+	if(errorCode == 4){
+		fprintf(stderr,"Błąd! Macierz b to macierz rozwiązań i powinna mieć tylko 1 kolumnę.\n");
+		return 4;
+	}
+	//Everything is alright
+	return 0;
+}
 
 int main(int argc, char ** argv) {
-	int res;
+	int errorCode;
 	Matrix * A = readFromFile(argv[1]);
 	Matrix * b = readFromFile(argv[2]);
 	Matrix * x;
@@ -16,18 +36,20 @@ int main(int argc, char ** argv) {
 	printToScreen(A);
 	printToScreen(b);
 
-	res = eliminate(A,b);
+	errorCode = eliminate(A,b);
 	x = createMatrix(b->r, 1);
+	// Funkcja sprawdza błędy
+	if(checkErrors(errorCode) > 0){
+		return errorCode;
+	}
 	if (x != NULL) {
-		res = backsubst(x,A,b);
+		errorCode = backsubst(x,A,b);
 
 		printToScreen(x);
 		freeMatrix(x);
 	} else {
 		fprintf(stderr,"Błąd! Nie mogłem utworzyć wektora wynikowego x.\n");
 	}
-	eliminate(A,b);
-	printToScreen(A);
 
 	freeMatrix(A);
 	freeMatrix(b);
