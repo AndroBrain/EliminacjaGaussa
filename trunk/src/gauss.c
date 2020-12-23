@@ -19,10 +19,13 @@ int eliminate(Matrix *mat, Matrix *b){
 
 	for(int column = 0; column < mat->c; column++){
 		int max = column;
+		// W tym miejscu podmieniamy równania, aby uniknąć 0 w diagonali, jeżeli jest to niemożliwe
+		// Program i tak zwróci 1
 		for(int i = column + 1; i < mat->r; i ++){
 			if(abs(mat->data[i][column]) > abs(mat->data[max][column]))
 				max = i;
 		}
+		// Zamiana wierszy
 		double *temp;
 		temp = mat->data[column];
 		mat->data[column] = mat->data[max];
@@ -37,6 +40,7 @@ int eliminate(Matrix *mat, Matrix *b){
 			// Jest to macierz osobliwa !
 			return 1;
 		}
+		// Jest to zerowanie wszystkiego poza diagonalą
 		for(int row = column+1; row < mat->r; row ++){
 			double ratio = mat->data[row][column]/mat->data[column][column];
 		 	b->data[row][0] = b->data[row][0] - ratio * b->data[column][0];
@@ -45,7 +49,7 @@ int eliminate(Matrix *mat, Matrix *b){
 			}	
 		}
 	}
-
+	// Pomyślnie przeprowadzona eliminacja Gaussa
 	return 0;
 }
 
