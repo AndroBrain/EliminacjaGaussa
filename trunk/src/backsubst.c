@@ -12,7 +12,7 @@ int  backsubst(Matrix *x, Matrix *mat, Matrix *b) {
 	int n = p - 1; // zamiana na początku może być niewyraźna, ale po rozpisaniu na kartce
 	double sum = 0;// z n zamiast p-1 wszystko ładniej wygląda, bo w mallocu nie mamy miejsca na \0,
 	for(int i = n; i >= 0; i--){ // ktore siedzi w ostatniej komorce, na ktore trzeba uwazac...
-		if(mat->data[i][i] == 0) // sprawdza czy nie ma zera na diagonali
+		if(mat->data[i][i] == 0) // sprawdza czy nie ma zera na diagonali.
 			return 1; 
 
 		for(int j = i+1; j < n+1; j++){
